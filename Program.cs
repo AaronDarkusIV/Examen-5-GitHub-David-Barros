@@ -121,3 +121,112 @@ namespace Ex03_PavimentacionCalles
         }
     }
 }
+
+// Codigo de Prueba Unitaria
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace PruebaUnitaria
+{
+    [TestClass]
+    public class DeterioroDeCaminoTest
+    {
+        [TestMethod]
+        public void ObtieneLongitudPromedioTramosPorDeterioro_DeberiaCalcularPromedioCorrecto()
+        {
+
+            // Arranque o Inicialización:
+
+            var tramos = new List<Tramo>
+            {
+                new Tramo { Longitud = 10, Deterioro = Deterioro.Bajo },
+                new Tramo { Longitud = 20, Deterioro = Deterioro.Medio },
+                new Tramo { Longitud = 30, Deterioro = Deterioro.Alto },
+                new Tramo { Longitud = 40, Deterioro = Deterioro.Bajo }
+
+            };
+
+            var deterioro = Deterioro.Bajo;
+            var sut = new DeterioroDeCamino();
+
+            // Actuación:
+
+            var resultado = sut.ObtieneLongitudPromedioTramosPorDeterioro(tramos, deterioro);
+
+            // Aseguramiento: 
+
+            Assert.AreEqual(25, resultado);
+        }
+
+        [TestMethod]
+        public void TotalizaAfectacionesPorDeterioro_DeberiaCalcularAfectacionesCorrectas()
+        {
+            var tramos = new List<Tramo>
+            {
+                new Tramo { Longitud = 10, Deterioro = Deterioro.Bajo },
+                new Tramo { Longitud = 20, Deterioro = Deterioro.Medio },
+                new Tramo { Longitud = 30, Deterioro = Deterioro.Alto }
+            };
+
+            var sut = new DeterioroDeCamino();
+
+            // Actuación:
+            var resultado = sut.TotalizaAfectacionesPorDeterioro(tramos);
+
+            //Aseguramiento:
+            Assert.AreEqual(1, resultado[Deterioro.Bajo]);
+            Assert.AreEqual(1, resultado[Deterioro.Medio]);
+            Assert.AreEqual(1, resultado[Deterioro.Alto]);
+        }
+    }
+
+    internal class Tramo
+    {
+        public int Longitud { get; set; }
+        public Deterioro Deterioro { get; set; }
+    }
+
+    internal enum Deterioro
+    {
+        Bajo,
+        Medio,
+        Alto
+    }
+
+    internal class DeterioroDeCamino
+    {
+        public double ObtieneLongitudPromedioTramosPorDeterioro(IEnumerable<Tramo> tramos, Deterioro deterioro)
+        {
+            double totalLongitud = 0;
+            int contador = 0;
+
+            foreach (var tramo in tramos)
+            {
+                if (tramo.Deterioro == deterioro)
+                {
+                    totalLongitud += tramo.Longitud;
+                    contador++;
+                }
+            }
+
+            return totalLongitud / contador;
+        }
+
+        public Dictionary<Deterioro, int> TotalizaAfectacionesPorDeterioro(IEnumerable<Tramo> tramos)
+        {
+            var resultado = new Dictionary<Deterioro, int>
+            {
+                { Deterioro.Bajo, 0 },
+                { Deterioro.Medio, 0 },
+                { Deterioro.Alto, 0 }
+            };
+
+            foreach (var tramo in tramos)
+            {
+
+                resultado; 
+
+            }
